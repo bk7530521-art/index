@@ -1,0 +1,309 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campus <DATA></DATA> | Management System</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f4f7fb;color:#1e293b}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:245px;background:#142d4e;color:white;padding:24px 15px;flex-shrink:0}
+.brand{font-size:23px;font-weight:bold;padding:8px 12px 30px}
+.brand span{color:#60a5fa}
+.nav{display:flex;flex-direction:column;gap:7px}
+.nav button{background:transparent;color:#cbd5e1;border:0;text-align:left;padding:13px;border-radius:8px;cursor:pointer;font-size:14px}
+.nav button:hover,.nav button.active{background:#294c73;color:white}
+.main{flex:1;min-width:0}
+.topbar{background:white;padding:18px 28px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e5eaf1}
+.topbar h2{font-size:20px}
+.admin{font-size:13px;color:#64748b}
+.content{padding:28px}
+.page{display:none}
+.page.active{display:block}
+.heading{margin-bottom:22px}
+.heading h1{font-size:25px;margin-bottom:7px}
+.heading p{color:#64748b;font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:17px;margin-bottom:25px}
+.card{background:white;border-radius:12px;padding:20px;border:1px solid #e8edf3}
+.card small{color:#64748b;font-size:13px}
+.card h2{font-size:29px;margin:13px 0 5px;color:#142d4e}
+.card .sub{font-size:12px;color:#16a36a}
+.panel{background:white;border:1px solid #e8edf3;border-radius:12px;padding:20px;margin-bottom:20px}
+.panel h3{margin-bottom:17px;font-size:17px}
+.grid{display:grid;grid-template-columns:1.5fr 1fr;gap:18px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:13px 10px;border-bottom:1px solid #edf0f5}
+th{color:#64748b;font-weight:600}
+.status{padding:5px 9px;border-radius:20px;font-size:11px;background:#dcfce7;color:#15803d}
+.absent{background:#fee2e2;color:#b91c1c}
+.btn{border:0;border-radius:7px;background:#2563eb;color:white;padding:10px 15px;cursor:pointer;font-size:13px}
+.btn:hover{background:#1d4ed8}
+.search{padding:10px;border:1px solid #dbe2eb;border-radius:7px;max-width:230px;width:100%}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.notice{padding:14px 0;border-bottom:1px solid #edf0f5}
+.notice:last-child{border:0}
+.notice strong{font-size:14px}
+.notice p{font-size:12px;color:#64748b;margin-top:6px}
+.module-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.module{background:white;border:1px solid #e8edf3;border-radius:12px;padding:22px;cursor:pointer}
+.module:hover{border-color:#60a5fa;transform:translateY(-2px)}
+.module .symbol{font-size:25px;margin-bottom:12px}
+.module h3{font-size:15px;margin-bottom:6px}
+.module p{font-size:12px;color:#64748b}
+input,select{padding:10px;border:1px solid #dbe2eb;border-radius:7px}
+@media(max-width:850px){
+.sidebar{width:190px}
+.stats{grid-template-columns:repeat(2,1fr)}
+.grid{grid-template-columns:1fr}
+.module-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:560px){
+.layout{display:block}
+.sidebar{width:100%;padding:12px}
+.brand{padding:8px 5px 14px}
+.nav{flex-direction:row;overflow-x:auto}
+.nav button{white-space:nowrap;padding:10px}
+.topbar{padding:14px}
+.content{padding:15px}
+.stats{gap:9px}
+.card{padding:13px}
+.card h2{font-size:23px}
+.module-grid{grid-template-columns:1fr 1fr}
+table{min-width:520px}
+.panel{overflow-x:auto}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar">
+ <div class="brand">CAMPUS<span><DATA></DATA></span></div>
+ <nav class="nav">
+  <button class="active" onclick="showPage('dashboard',this)">▦ Dashboard</button>
+  <button onclick="showPage('students',this)">♙ Students</button>
+  <button onclick="showPage('faculty',this)">♧ Faculty</button>
+  <button onclick="showPage('courses',this)">▤ Courses</button>
+  <button onclick="showPage('attendance',this)">✓ Attendance</button>
+  <button onclick="showPage('fees',this)">₹ Fee Management</button>
+  <button onclick="showPage('exams',this)">▣ Examinations</button>
+  <button onclick="showPage('notices',this)">♢ Notices</button>
+  <button onclick="showPage('reports',this)">▥ Reports</button>
+ </nav>
+</aside>
+
+<main class="main">
+<header class="topbar">
+ <h2 id="pageTitle">Dashboard</h2>
+ <div class="admin">Administrator ▾</div>
+</header>
+
+<div class="content">
+
+<section class="page active" id="dashboard">
+ <div class="heading">
+  <h1>Welcome to Campus <Data></Data> 👋</h1>
+  <p>Here's what's happening at your campus today.</p>
+ </div>
+ <div class="stats">
+  <div class="card"><small>Total Students</small><h2>2,450</h2><div class="sub">↑ Active enrollment</div></div>
+  <div class="card"><small>Faculty Members</small><h2>145</h2><div class="sub">Teaching staff</div></div>
+  <div class="card"><small>Active Courses</small><h2>38</h2><div class="sub">Across departments</div></div>
+  <div class="card"><small>Attendance Rate</small><h2>94%</h2><div class="sub">Today's average</div></div>
+ </div>
+ <div class="grid">
+  <div class="panel">
+   <h3>Recent Student Records</h3>
+   <table>
+    <thead><tr><th>Name</th><th>Department</th><th>Status</th></tr></thead>
+    <tbody>
+     <tr><td>Rahul Sharma</td><td>Computer Science</td><td><span class="status">Active</span></td></tr>
+     <tr><td>Priya Verma</td><td>Commerce</td><td><span class="status">Active</span></td></tr>
+     <tr><td>Aman Singh</td><td>Engineering</td><td><span class="status">Active</span></td></tr>
+     <tr><td>Neha Gupta</td><td>Management</td><td><span class="status">Active</span></td></tr>
+    </tbody>
+   </table>
+  </div>
+  <div class="panel">
+   <h3>Campus Announcements</h3>
+   <div class="notice"><strong>Examination Schedule</strong><p>Mid-semester examination timetable released.</p></div>
+   <div class="notice"><strong>Annual Sports Day</strong><p>Registrations are now open.</p></div>
+   <div class="notice"><strong>Fee Reminder</strong><p>Submit outstanding semester fees.</p></div>
+  </div>
+ </div>
+ <div class="panel">
+  <h3>Quick Access</h3>
+  <div class="module-grid">
+   <div class="module" onclick="showPage('students')"><div class="symbol">👨‍🎓</div><h3>Students</h3><p>Manage student information</p></div>
+   <div class="module" onclick="showPage('attendance')"><div class="symbol">📅</div><h3>Attendance</h3><p>Track daily attendance</p></div>
+   <div class="module" onclick="showPage('fees')"><div class="symbol">💳</div><h3>Fees</h3><p>Manage student payments</p></div>
+  </div>
+ </div>
+</section>
+
+<section class="page" id="students">
+ <div class="heading"><h1>Student Management</h1><p>Manage campus student records.</p></div>
+ <div class="actions">
+  <input class="search" id="studentSearch" placeholder="Search students..." oninput="filterStudents()">
+  <button class="btn" onclick="addStudent()">+ Add Student</button>
+ </div>
+ <div class="panel">
+  <table id="studentTable">
+   <thead><tr><th>ID</th><th>Name</th><th>Department</th><th>Email</th><th>Status</th></tr></thead>
+   <tbody id="studentRows">
+    <tr><td>ST001</td><td>Rahul Sharma</td><td>Computer Science</td><td>rahul@example.com</td><td><span class="status">Active</span></td></tr>
+    <tr><td>ST002</td><td>Priya Verma</td><td>Commerce</td><td>priya@example.com</td><td><span class="status">Active</span></td></tr>
+    <tr><td>ST003</td><td>Aman Singh</td><td>Engineering</td><td>aman@example.com</td><td><span class="status">Active</span></td></tr>
+   </tbody>
+  </table>
+ </div>
+</section>
+
+<section class="page" id="faculty">
+ <div class="heading"><h1>Faculty Management</h1><p>Manage teachers and staff.</p></div>
+ <div class="actions"><button class="btn" onclick="addFaculty()">+ Add Faculty</button></div>
+ <div class="panel"><table><thead><tr><th>ID</th><th>Name</th><th>Department</th><th>Role</th></tr></thead>
+ <tbody id="facultyRows"><tr><td>FC001</td><td>Dr. Amit Kumar</td><td>Computer Science</td><td>Professor</td></tr><tr><td>FC002</td><td>Dr. Sunita Rao</td><td>Commerce</td><td>HOD</td></tr></tbody></table></div>
+</section>
+
+<section class="page" id="courses">
+ <div class="heading"><h1>Course Management</h1><p>Manage academic programs and courses.</p></div>
+ <div class="actions"><button class="btn" onclick="addCourse()">+ Add Course</button></div>
+ <div class="panel"><table><thead><tr><th>Course ID</th><th>Course Name</th><th>Department</th><th>Duration</th></tr></thead>
+ <tbody id="courseRows"><tr><td>CR101</td><td>Bachelor of Computer Applications</td><td>IT</td><td>3 Years</td></tr><tr><td>CR102</td><td>Bachelor of Commerce</td><td>Commerce</td><td>3 Years</td></tr><tr><td>CR103</td><td>Bachelor of Business Administration</td><td>Management</td><td>3 Years</td></tr></tbody></table></div>
+</section>
+
+<section class="page" id="attendance">
+ <div class="heading"><h1>Attendance Management</h1><p>Record and review student attendance.</p></div>
+ <div class="panel">
+  <div class="actions"><input type="date" id="attendanceDate"><button class="btn" onclick="markAttendance()">Save Attendance</button></div>
+  <table><thead><tr><th>Student</th><th>Department</th><th>Attendance</th></tr></thead>
+  <tbody id="attendanceRows">
+   <tr><td>Rahul Sharma</td><td>Computer Science</td><td><select><option>Present</option><option>Absent</option></select></td></tr>
+   <tr><td>Priya Verma</td><td>Commerce</td><td><select><option>Present</option><option>Absent</option></select></td></tr>
+   <tr><td>Aman Singh</td><td>Engineering</td><td><select><option>Present</option><option>Absent</option></select></td></tr>
+  </tbody></table>
+ </div>
+</section>
+
+<section class="page" id="fees">
+ <div class="heading"><h1>Fee Management</h1><p>Manage student fee records and payments.</p></div>
+ <div class="stats">
+  <div class="card"><small>Total Collection</small><h2>₹24.5L</h2></div>
+  <div class="card"><small>Pending Fees</small><h2>₹3.2L</h2></div>
+ </div>
+ <div class="panel"><h3>Fee Records</h3><table><thead><tr><th>Student</th><th>Amount</th><th>Status</th></tr></thead>
+ <tbody><tr><td>Rahul Sharma</td><td>₹45,000</td><td><span class="status">Paid</span></td></tr><tr><td>Priya Verma</td><td>₹45,000</td><td><span class="status absent">Pending</span></td></tr></tbody></table>
+ <button class="btn" style="margin-top:15px" onclick="alert('Connect a payment gateway to accept payments.')">Record Payment</button></div>
+</section>
+
+<section class="page" id="exams">
+ <div class="heading"><h1>Examination Management</h1><p>Manage examinations and results.</p></div>
+ <div class="actions"><button class="btn" onclick="addExam()">+ Add Examination</button></div>
+ <div class="panel"><table><thead><tr><th>Examination</th><th>Course</th><th>Date</th><th>Status</th></tr></thead>
+ <tbody id="examRows"><tr><td>Mid Semester</td><td>BCA</td><td>20 Nov 2026</td><td><span class="status">Scheduled</span></td></tr><tr><td>Practical Exam</td><td>BCA</td><td>25 Nov 2026</td><td><span class="status">Scheduled</span></td></tr></tbody></table></div>
+</section>
+
+<section class="page" id="notices">
+ <div class="heading"><h1>Announcements & Notices</h1><p>Publish important campus updates.</p></div>
+ <div class="actions"><button class="btn" onclick="addNotice()">+ Publish Notice</button></div>
+ <div class="panel" id="noticeList">
+  <div class="notice"><strong>Mid Semester Examination</strong><p>Examination timetable is available for all students.</p></div>
+  <div class="notice"><strong>Annual Sports Day</strong><p>Students can register with the sports department.</p></div>
+ </div>
+</section>
+
+<section class="page" id="reports">
+ <div class="heading"><h1>Reports & Analytics</h1><p>Campus performance overview.</p></div>
+ <div class="stats">
+  <div class="card"><small>Students</small><h2>2,450</h2></div>
+  <div class="card"><small>Faculty</small><h2>145</h2></div>
+  <div class="card"><small>Courses</small><h2>38</h2></div>
+  <div class="card"><small>Attendance</small><h2>94%</h2></div>
+ </div>
+ <div class="panel"><h3>Generate Reports</h3><div class="actions">
+  <button class="btn" onclick="window.print()">Print Report</button>
+  <button class="btn" onclick="exportStudents()">Export Student CSV</button>
+ </div></div>
+</section>
+
+</div>
+</main>
+</div>
+
+<script>
+function showPage(id,button){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+ if(button) button.classList.add('active');
+ else document.querySelectorAll('.nav button').forEach(b=>{
+  if(b.getAttribute('onclick').includes("'"+id+"'")) b.classList.add('active');
+ });
+ document.getElementById('pageTitle').textContent=
+ id.charAt(0).toUpperCase()+id.slice(1);
+}
+function addStudent(){
+ let name=prompt("Enter student name:");
+ if(!name)return;
+ let dept=prompt("Enter department:")||"General";
+ let id="ST"+String(document.querySelectorAll('#studentRows tr').length+1).padStart(3,'0');
+ document.getElementById('studentRows').insertAdjacentHTML('beforeend',
+ `<tr><td>${escapeHTML(id)}</td><td>${escapeHTML(name)}</td><td>${escapeHTML(dept)}</td><td>Not provided</td><td><span class="status">Active</span></td></tr>`);
+}
+function addFaculty(){
+ let name=prompt("Enter faculty name:");
+ if(!name)return;
+ let dept=prompt("Enter department:")||"General";
+ document.getElementById('facultyRows').insertAdjacentHTML('beforeend',
+ `<tr><td>FC${Date.now().toString().slice(-4)}</td><td>${escapeHTML(name)}</td><td>${escapeHTML(dept)}</td><td>Faculty</td></tr>`);
+}
+function addCourse(){
+ let name=prompt("Enter course name:");
+ if(!name)return;
+ let dept=prompt("Enter department:")||"General";
+ document.getElementById('courseRows').insertAdjacentHTML('beforeend',
+ `<tr><td>CR${Date.now().toString().slice(-4)}</td><td>${escapeHTML(name)}</td><td>${escapeHTML(dept)}</td><td>3 Years</td></tr>`);
+}
+function addExam(){
+ let name=prompt("Enter examination name:");
+ if(!name)return;
+ let date=prompt("Enter examination date:")||"TBD";
+ document.getElementById('examRows').insertAdjacentHTML('beforeend',
+ `<tr><td>${escapeHTML(name)}</td><td>General</td><td>${escapeHTML(date)}</td><td><span class="status">Scheduled</span></td></tr>`);
+}
+function addNotice(){
+ let title=prompt("Enter notice title:");
+ if(!title)return;
+ let message=prompt("Enter notice details:")||"";
+ document.getElementById('noticeList').insertAdjacentHTML('afterbegin',
+ `<div class="notice"><strong>${escapeHTML(title)}</strong><p>${escapeHTML(message)}</p></div>`);
+}
+function escapeHTML(value){
+ return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function filterStudents(){
+ let query=document.getElementById('studentSearch').value.toLowerCase();
+ document.querySelectorAll('#studentRows tr').forEach(row=>{
+ row.style.display=row.textContent.toLowerCase().includes(query)?'':'none';
+ });
+}
+function markAttendance(){
+ alert("Attendance recorded in this demo. Connect a backend to permanently save records.");
+}
+function exportStudents(){
+ let rows=[...document.querySelectorAll('#studentTable tr')];
+ let csv=rows.map(row=>[...row.querySelectorAll('th,td')].map(c=>'"'+c.innerText.replace(/"/g,'""')+'"').join(',')).join('\n');
+ let a=document.createElement('a');
+ a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+ a.download='campus-students.csv';
+ a.click();
+ URL.revokeObjectURL(a.href);
+}
+document.getElementById('attendanceDate').value=new Date().toISOString().slice(0,10);
+</script>
+</body>
+</html>
+
+
